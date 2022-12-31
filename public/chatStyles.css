@@ -31,8 +31,6 @@ h2{
 #chat {
   width: 17%;
   margin-left: 1%;
-  margin-top: 10px;
-  /*margin: 30px;*/
   display: inline-block;
   border-radius: 2px;
 }
