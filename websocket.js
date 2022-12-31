@@ -21,8 +21,10 @@ io.on('connection', (clientSocket) => {
 
     data.html = toHTML(textEmoji(data.message));
 
-    const newIndex = messages.push(data) - 1;
-    setTimeout(() => messages.splice(newIndex, 1), 5 * 60 * 1000);
+    //TODO: should first validate an array of messages is present,
+    // and if not, create one prior to pushing.
+    const newIndex = messages[data.stream].push(data) - 1;
+    setTimeout(() => messages[data.stream].splice(newIndex, 1), 5 * 60 * 1000);
     
     io.sockets.emit('chat', data);
   });
