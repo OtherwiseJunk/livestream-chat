@@ -46,7 +46,7 @@ message.addEventListener('keypress', (e) => {
 });
 
 // listen for events
-socket.on('chat', (data) => { 
+socket.on('chat', (data) => {
   appendMessage(data);
   chatContainer.scrollTop = chatContainer.scrollHeight;
 });
