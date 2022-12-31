@@ -48,7 +48,7 @@ function clearIsTyping(isTypingElement, username) {
     setTimeout(() => {
       clearIsTyping(isTypingElement, username)
       wasRecentlyTypingByUsername[username] = false;
-    }, 5 * 1000);
+    }, 2 * 1000);
   }
 }
 
