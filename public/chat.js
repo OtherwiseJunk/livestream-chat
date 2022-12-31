@@ -8,9 +8,11 @@ const btn = document.getElementById('send');
 const output = document.getElementById('output');
 const feedback = document.getElementById('feedback');
 const chatContainer = document.getElementById('chat-window');
+const streamKey = testString.slice(8).split('/')[1];
 
 function sendMessage() {
   socket.emit('chat', {
+    stream: streamKey,
     message: message.value,
     username: username.value,
     createdAt: new Date(),
@@ -45,7 +47,7 @@ socket.on('typing', (data) => {
 });
 
 // load message history
-fetch('/messages')
+fetch(`/messages?streamKey=${streamKey}`)
 .then(async(data) => {
   const messages = await data.json();
   for (const message of messages)
