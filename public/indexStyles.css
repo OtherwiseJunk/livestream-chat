@@ -1,0 +1,29 @@
+div {
+    height: 30px;
+    position: relative;
+    margin-top:5em;
+    padding-right: 30px;
+    text-align:center;
+    /* width of button */
+  }
+  div > * {
+    height: 100%;
+    box-sizing: border-box;
+  }
+  input {
+    width: 100%;
+    width: 420px;
+    height: fit-content;
+    font-size: 18px;
+    display: inline-block;
+  }
+  button {
+    width: 120px;
+    height: fit-content;
+    position: absolute;
+    top: 0;
+    display: inline-block;
+    background: #5067b8;
+    color: #ccc;
+    font-size: 18px;
+  }
