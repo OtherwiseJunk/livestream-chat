@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  rtmp:
+    ports:
+      - 8080:8080
+      - 1935:1935
+    image: alqutami/rtmp-hls
+  livestream-chat:
+    ports:
+      - 3001:3001
+    build: ./
+    environment:
+      - CHAT_HOST=http://localhost:3001
+      - STREAM_HOST=http://localhost:8080
+      - LOBBY_TITLE=some dumb landing title
+      - CHAT_TITLE=some dumb chat title
