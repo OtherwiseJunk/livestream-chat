@@ -22,7 +22,7 @@ h2{
   color: #575ed8;
 }
 
-#player {
+#player-container{
   width: 80%;
   height: 100vh;
   display: inline-block;
@@ -31,7 +31,7 @@ h2{
 #chat {
   width: 17%;
   margin-left: 1%;
-  margin-top: 20px;
+  margin-top: 10px;
   /*margin: 30px;*/
   display: inline-block;
   border-radius: 2px;
@@ -99,4 +99,9 @@ button{
 
 a {
   color: #7289DA !important;
+}
+
+#player{
+  height: 100%;
+  width: 100%;
 }
