@@ -21,8 +21,9 @@ io.on('connection', (clientSocket) => {
 
     data.html = toHTML(textEmoji(data.message));
 
-    //TODO: should first validate an array of messages is present,
-    // and if not, create one prior to pushing.
+    if(messages[data.stream] == null){
+      messages[data.stream] = new Array
+    }
     const newIndex = messages[data.stream].push(data) - 1;
     setTimeout(() => messages[data.stream].splice(newIndex, 1), 5 * 60 * 1000);
     
