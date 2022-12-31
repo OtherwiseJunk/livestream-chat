@@ -24,8 +24,9 @@ h2{
 
 #player-container{
   width: 80%;
-  height: 100vh;
+  height: 95vh;
   display: inline-block;
+  margin-top: 5px;
 }
 
 #chat {

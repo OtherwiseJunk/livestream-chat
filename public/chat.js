@@ -1,8 +1,6 @@
 // establish connection
 const socket = io.connect('/');
 
-
-
 // query DOM
 const message = document.getElementById('message');
 const username = document.getElementById('username');
