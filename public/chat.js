@@ -1,6 +1,8 @@
 // establish connection
 const socket = io.connect('/');
 
+
+
 // query DOM
 const message = document.getElementById('message');
 const username = document.getElementById('username');
@@ -8,8 +10,26 @@ const btn = document.getElementById('send');
 const output = document.getElementById('output');
 const feedback = document.getElementById('feedback');
 const chatContainer = document.getElementById('chat-window');
-const streamKey = testString.slice(8).split('/')[1];
+const playerContainer = document.getElementById('player-container');
+
+const streamKey = window.location.href.slice(8).split('/')[1];
 const wasRecentlyTypingByUsername = {};
+
+fetch('/config?page=chat')
+.then(async(data) =>{
+    const config = await data.json();
+    appendVideoSourceToPlayerDiv(config.STREAM_HOST, streamKey);
+    var player = videojs('#player', {autoplay: true});
+    document.title = config.CHAT_TITLE != undefined ? config.CHAT_TITLE : 'Movie Lobby';
+});
+
+function appendVideoSourceToPlayerDiv(host, streamKey){
+  playerContainer.innerHTML = `
+  <video id="player" class="video-js vjs-default-skin" controls preload="auto">
+    <source src="${host}/hls/${streamKey}.m3u8" type="application/x-mpegURL" />
+  </video>
+  `
+}
 
 function sendMessage() {
   socket.emit('chat', {
