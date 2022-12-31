@@ -14,3 +14,4 @@ services:
       - STREAM_HOST=http://localhost:8080
       - LOBBY_TITLE=some dumb landing title
       - CHAT_TITLE=some dumb chat title
+      
