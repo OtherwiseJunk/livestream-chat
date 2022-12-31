@@ -9,6 +9,7 @@ const output = document.getElementById('output');
 const feedback = document.getElementById('feedback');
 const chatContainer = document.getElementById('chat-window');
 const streamKey = testString.slice(8).split('/')[1];
+const wasRecentlyTypingByUsername = {};
 
 function sendMessage() {
   socket.emit('chat', {
@@ -19,6 +20,18 @@ function sendMessage() {
     id: new Date().getTime()
   });
   message.value = '';
+}
+
+function clearIsTyping(isTypingElement, username){
+  if(!wasRecentlyTypingByUsername[username]){
+    feedback.innerHTML = feedback.innerHTML.replace(isTypingElement,'')
+  }
+  else{
+    setTimeout(() => {      
+      clearIsTyping(isTypingElement, username)
+      wasRecentlyTypingByUsername[username] = false;
+    }, 5 * 1000);
+  }
 }
 
 // emit events
@@ -35,15 +48,27 @@ message.addEventListener('keypress', (e) => {
 });
 
 // listen for events
-socket.on('chat', (data) => {
+socket.on('chat', (data) => { 
   appendMessage(data);
   chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 
-socket.on('typing', (data) => {
-  feedback.innerHTML = `<p><em>${data} is typing a message...</em></p>`;
-  
-  setTimeout(() => feedback.innerHTML = '', 5 * 1000);
+socket.on('typing', (username) => {
+  const isTypingElement = `<p><em>${username} is typing a message...</em></p>`;
+
+  if(feedback.innerHTML.indexOf(isTypingElement) == -1) {
+    // Initializes the value if the dictionary value doesn't currently exist.
+    // Otherwise, we want this false, we only consider them typing recently on subsequent typing emits occur.
+    wasRecentlyTypingByUsername[username] = false;
+    feedback.innerHTML += isTypingElement;
+    
+    setTimeout(() => {
+      clearIsTyping(isTypingElement, username);
+    }, 5 * 1000);
+  }
+  else{
+    wasRecentlyTypingByUsername[username] = true;
+  }
 });
 
 // load message history
