@@ -6,7 +6,7 @@ fetch('/config?page=lobby')
     const config = await data.json();
     console.log(config);
     host = config.CHAT_HOST;
-    document.head.title = config.LOBBY_TITLE ?? 'Movie Lobby';
+    document.title = config.LOBBY_TITLE ?? 'Movie Lobby';
 });
 
 function navigateToStreamChat() {

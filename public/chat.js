@@ -20,7 +20,7 @@ fetch('/config?page=chat')
     const config = await data.json();
     appendVideoSourceToPlayerDiv(config.STREAM_HOST, streamKey);
     var player = videojs('#player', { autoplay: true });
-    document.title = config.CHAT_TITLE != undefined ? config.CHAT_TITLE : 'Movie Lobby';
+    document.title = config.CHAT_TITLE ?? 'Movie Lobby';
   });
 
 function appendVideoSourceToPlayerDiv(host, streamKey) {
