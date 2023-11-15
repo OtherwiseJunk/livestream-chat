@@ -73,7 +73,7 @@ function userCountChangeEvent(userCount, eventType) {
 }
 
 function handleTypingEvent(typingEvent) {
-  const isTypingElement = `<span class="isTypingIndicator"><p><em>${typingEvent.username} is typing a message...</em></p></span>`;
+  const isTypingElement = `<p>${typingEvent.username} <em>is typing a message...</em></p>`;
   ChatHelper.updateIsTyping(
     isTypingElement,
     isTypingContainer,

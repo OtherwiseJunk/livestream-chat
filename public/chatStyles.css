@@ -1,8 +1,3 @@
-body{
-  font-family: 'Calibri Light';
-  background-color: #2C2F33;
-}
-
 #chat-window::-webkit-scrollbar {
   width: 1em;
 }
@@ -14,12 +9,6 @@ body{
 #chat-window::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
-}
-
-h2{
-  font-size: 18px;
-  padding: 10px 20px;
-  color: #575ed8;
 }
 
 #player-container{
@@ -58,9 +47,34 @@ h2{
   margin: 0 20px;
 }
 
-#is-typing-container{
-  position: absolute;
-  bottom: 0em;
+#footer {
+  color: white;
+  text-align: center;
+}
+
+#player{
+  height: 100%;
+  width: 100%;
+}
+
+#viewer-count-display{
+  color: white
+}
+
+.at {
+  float: right;
+  color: gray;
+}
+
+h2{
+  font-size: 18px;
+  padding: 10px 20px;
+  color: #575ed8;
+}
+
+body{
+  font-family: 'Calibri Light';
+  background-color: #2C2F33;
 }
 
 label{
@@ -91,25 +105,6 @@ button{
   border-radius: 0 0 2px 2px;
 }
 
-.at {
-  float: right;
-  color: gray;
-}
-
-#footer {
-  color: white;
-  text-align: center;
-}
-
 a {
   color: #7289DA !important;
-}
-
-#player{
-  height: 100%;
-  width: 100%;
-}
-
-#viewer-count-display{
-  color: white
 }
