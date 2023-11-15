@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<title>Movie Streaming Theater</title>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,14 +23,13 @@
       <i id="viewer-count-display" class="fa fa-eye"> 1 friend watching!</i>
     </div>
     <div id="chat-window">
-      <div id="output"></div>
+      <div id="messages-container"></div>
+      <div id="is-typing-container"></div>
     </div>
-    <div id="feedback"></div>
     <input id="username" class="dinput" type="text" placeholder="Username">
     <input id="message" class="dinput" type="text" placeholder="Message">
     <button id="send">Send</button>
   </div>
-  <script src="/discord-html.js" defer></script>
   <script src="/chat.js" type="module" defer></script>
 </body>
 </html>

@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+<title>Movie Streaming Lobby</title>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/indexStyles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/discord-theme@1.1.8/css/main.min.css" defer>    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/discord-theme@1.1.8/css/main.min.css" defer>
 </head>
 
 <body>
     <div class="container">
-            <input id="streamKey" class="dinput" placeholder="Enter a roomkey...">
+            <input id="streamKey" class="dinput" placeholder="Enter a room key...">
             <button id="send">Start Watching!</button>
     </div>
     <script src="/index.js" type="module" defer></script>
+    <script src="/helpers/chatHelper.js" type="module" defer></script>
+    <script src="/helpers/socketHelper.js" type="module" defer></script>
+    <script src="/helper/videoHelper.js" type="module" defer></script>
 </body>

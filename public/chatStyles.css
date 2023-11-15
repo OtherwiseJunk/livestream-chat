@@ -46,16 +46,21 @@ h2{
   box-shadow: inset 0px 0px 6px 1px rgba(0,0,0,0.23);
 }
 
-#output p{
+#messages-container p{
   padding: 14px 0px;
   margin: 0 20px;
   color: #555;
 }
 
-#feedback p{
+#is-typing-container p{
   color: #aaa;
   padding: 14px 0px;
   margin: 0 20px;
+}
+
+#is-typing-container{
+  position: absolute;
+  bottom: 0em;
 }
 
 label{
