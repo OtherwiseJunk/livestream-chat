@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "NodeNext",
+    "typeRoots": [],
+    "skipLibCheck": true
+  },
+  "include": [
+    "backend/websocket.ts",
+    "backend/server.ts",
+    "backend/types/SocketTypes.ts",
+    "backend/config/configurationConstants.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
