@@ -9,17 +9,26 @@ import metascraperImage from "metascraper-image";
 import metascraperTitle from "metascraper-title";
 import metascraperUrl from "metascraper-url";
 import got from 'got';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+let __dirname = path.dirname(__filename);
+
+if (process.env.DEVMODE) {
+  __dirname = __dirname.replace('/backend', '/');
+}
 
 const port = 3001;
 const app = express();
 const server = createServer(app);
+const messageDuration = 5 * 60 * 1000;
 
 const io: Server = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server);
 const messagesByStreamKey: Map<string, ChatData[]> = new Map();
 const userCountsByStreamKey: Map<string, number> = new Map();
 const metascraper: Metascraper = createMetascraper([metascraperDescription(), metascraperImage(), metascraperTitle(), metascraperUrl()]);
-const chatService: ChatService = new ChatService(io, userCountsByStreamKey, messagesByStreamKey, metascraper, got);
+const chatService: ChatService = new ChatService(io, userCountsByStreamKey, messagesByStreamKey, metascraper, got, messageDuration);
 
 server.listen(port, (() => {
   console.log(`Listening on port ${port}`);

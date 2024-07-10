@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "vitest",
-    "start": "node dist/backend/server.js",
-    "dev": "nodemon backend/server.ts",
+    "start": "node server.js",
+    "dev": "DEVMODE=true nodemon",
     "lint": "eslint ./backend/*.ts ./public/*.js --fix",
     "build": "tsc"
   },
@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord-markdown": "^2.4.1",
+    "@ts-stack/markdown": "^1.5.0",
     "express": "^4.17.1",
     "got": "^14.4.1",
     "markdown-to-text-emoji": "^1.1.0",
@@ -32,6 +32,7 @@
     "@types/express": "^4.17.21",
     "globals": "^15.8.0",
     "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
     "vitest": "^1.6.0"
   }

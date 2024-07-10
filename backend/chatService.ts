@@ -1,4 +1,4 @@
-import { toHTML } from "discord-markdown";
+import { Marked } from '@ts-stack/markdown';
 import { textEmoji } from "markdown-to-text-emoji";
 import { ChatData } from "./types/socketTypes.js";
 import { Server } from "socket.io";
@@ -36,7 +36,7 @@ export class ChatService {
 
   async handleChatMessage(streamKey: string, message: ChatData) {
     message.embed = await this.buildEmbed(message);
-    message.html = toHTML(textEmoji(message.message));
+    message.html = Marked.parse(textEmoji(message.message));
 
     if (!this.messagesByStreamKey.get(streamKey)) {
       this.messagesByStreamKey.set(streamKey, []);
