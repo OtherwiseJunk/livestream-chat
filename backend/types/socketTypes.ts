@@ -1,6 +1,9 @@
+import { Metadata } from "metascraper";
+
 export interface ChatData {
     message: string;
     html?: string;
+    embed?: Metadata;
 }
 
 export interface ServerToClientEvents {

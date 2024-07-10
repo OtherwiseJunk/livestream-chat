@@ -1,6 +1,4 @@
-import { setEmbed } from './htmlHelpers';
 import { describe, afterEach, it, expect, vi } from 'vitest';
-import { metascraper } from './htmlHelpers';
 import { Metadata } from 'metascraper';
 
 describe('setEmbed', () => {

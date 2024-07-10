@@ -10,7 +10,7 @@
     "skipLibCheck": true
   },
   "include": [
-    "backend/websocket.ts",
+    "backend/chatService.ts",
     "backend/server.ts",
     "backend/types/SocketTypes.ts",
     "backend/config/configurationConstants.ts"
