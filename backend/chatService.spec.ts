@@ -140,7 +140,10 @@ describe('ChatService', () => {
             expect(toSpy).toHaveBeenCalledWith(streamKey);
             expect(textEmojiSpy).toHaveBeenCalledWith(messageData.message);
             expect(messagesAfter.length).toBe(1);
-            expect(messagesAfter[0]).toEqual({ ...messageData, html: '<p><strong>test</strong> <em>message</em></p>\n', embed: undefined });
+            const message = messagesAfter[0];
+            expect(message.message).toEqual(messageData.message);
+            expect(message.html).toEqual('<strong>test</strong> <em>message</em>')
+            expect(message.embed).toEqual(undefined);
         });
 
         it('should build and emit a chat message with an embed', async () => {
@@ -160,7 +163,7 @@ describe('ChatService', () => {
             expect(messagesAfter.length).toBe(1);
             const message = messagesAfter[0];
             expect(message.message).toEqual(messageData.message);
-            expect(message.html).toEqual('<p><strong>test</strong> <em>message</em></p>\n')
+            expect(message.html).toEqual('<strong>test</strong> <em>message</em>')
             expect(message.embed?.description).toEqual('test description');
         });
 

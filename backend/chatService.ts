@@ -37,6 +37,7 @@ export class ChatService {
   async handleChatMessage(streamKey: string, message: ChatData) {
     message.embed = await this.buildEmbed(message);
     message.html = Marked.parse(textEmoji(message.message));
+    message.html = message.html.replace(/<p>/g, '').replace(/<\/p>\n?/g, '');
 
     if (!this.messagesByStreamKey.get(streamKey)) {
       this.messagesByStreamKey.set(streamKey, []);
