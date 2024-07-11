@@ -4,7 +4,7 @@ export class SocketHelper {
 
   constructor(streamKey) {
     this.streamKey = streamKey;
-    this.socket = io.connect("/", {
+    this.socket = io.connect({
       query: {
         streamKey: streamKey,
       },
@@ -13,7 +13,6 @@ export class SocketHelper {
 
   sendMessage(message, username) {
     this.socket.emit("chat", {
-      stream: this.streamKey,
       message: message,
       username: username,
       createdAt: new Date(),
@@ -24,7 +23,6 @@ export class SocketHelper {
   emitTypingEvent(username) {
     this.socket.emit("typing", {
       username: username,
-      stream: this.streamKey,
     });
   }
 }

@@ -24,8 +24,8 @@ export class ChatService {
     console.log(this.userCountsByStreamKey);
   }
   decrementUserCount(streamKey: string) {
-    let currentCount: number = this.userCountsByStreamKey.get(streamKey) ?? 0;
-    if (!currentCount) {
+    let currentCount: number = this.userCountsByStreamKey.get(streamKey) ?? 1;
+    if (currentCount === 1) {
       return;
     }
 
@@ -42,12 +42,17 @@ export class ChatService {
       this.messagesByStreamKey.set(streamKey, []);
     }
     const newIndex = this.messagesByStreamKey.get(streamKey)!.push(message) - 1;
-    setTimeout(() => this.messagesByStreamKey.get(streamKey)!.splice(newIndex, 1), this.messageDuration);
+    setTimeout(() => {
+      const messages = this.messagesByStreamKey.get(streamKey);
+      if (messages) {
+        messages.splice(newIndex, 1), this.messageDuration
+      }
+    });
 
     this.io.to(streamKey).emit("chat", message);
   }
 
-  async buildEmbed(messageData: { message: string, embed?: Metadata }): Promise<Metadata | undefined> {
+  async buildEmbed(messageData: ChatData): Promise<Metadata | undefined> {
     const urlMatches = messageData.message.match(this.urlRegex);
 
     if (urlMatches) {

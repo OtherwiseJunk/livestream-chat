@@ -49,7 +49,7 @@ io.on("connection", (clientSocket: Socket) => {
     clientSocket.disconnect();
     return;
   }
-  const streamKey: string = clientSocket.handshake.query.streamKey[0];
+  const streamKey: string = clientSocket.handshake.query.streamKey as string;
 
   clientSocket.join(streamKey);
   chatService.incrementUserCount(streamKey);
@@ -62,6 +62,8 @@ io.on("connection", (clientSocket: Socket) => {
   });
 
   clientSocket.on("typing", (data) => {
+    console.log('Received Is Typing request');
+    console.log(data);
     chatService.emitUserTyping(streamKey, data);
   });
 

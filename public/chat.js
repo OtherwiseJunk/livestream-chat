@@ -73,6 +73,9 @@ function userCountChangeEvent(userCount, eventType) {
 }
 
 function handleTypingEvent(typingEvent) {
+  if(typingEvent.username === username.value){
+    return;
+  }
   const isTypingElement = `<p>${typingEvent.username} <em>is typing a message...</em></p>`;
   ChatHelper.updateIsTyping(
     isTypingElement,
@@ -98,16 +101,12 @@ message.addEventListener("keypress", (e) => {
 
 // listen for events
 socketHelper.socket.on("chat", (data) => {
-  if (data.stream === streamKey) {
-    appendMessage(data);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-  }
+  appendMessage(data);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 
 socketHelper.socket.on("typing", (typingEvent) => {
-  if (typingEvent.stream === streamKey) {
-    handleTypingEvent(typingEvent);
-  }
+  handleTypingEvent(typingEvent);
 });
 socketHelper.socket.on("userJoined", (count) => {
   userCountChangeEvent(count, "Joined");

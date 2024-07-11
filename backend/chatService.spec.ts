@@ -5,19 +5,18 @@ import { Metadata } from "metascraper";
 import got from "got";
 import { ChatData } from "./types/socketTypes";
 import { lobbyConfig, chatConfig } from "./config/configurationConstants";
-import * as discordMarkdown from "discord-markdown";
 import * as markdownToTextEmoji from "markdown-to-text-emoji";
 
 const existingStreamKey = 'existingStreamKey';
-const zeroUserStreamKey = 'zeroUserStreamKey';
+const noZeroUserStreamKey = 'zeroUserStreamKey';
 const messageDuration = 100;
 
 function buildInitialUserCountMap() {
-    return new Map([[existingStreamKey, 1], [zeroUserStreamKey, 0]]);
+    return new Map([[existingStreamKey, 1], [noZeroUserStreamKey, 1]]);
 }
 
-function buildInitialMessageMap() {
-    return new Map([[existingStreamKey, [{ message: 'test message' }]]]);
+function buildInitialMessageMap(): Map<string, ChatData[]> {
+    return new Map([[existingStreamKey, [{ message: 'test message' } as ChatData]]]);
 }
 
 describe('ChatService', () => {
@@ -40,7 +39,7 @@ describe('ChatService', () => {
         let messageData: ChatData;
 
         it('should set the embed data if a URL is found in the message', async () => {
-            messageData = { message: 'Check out this website: https://example.com' };
+            messageData = { message: 'Check out this website: https://example.com' } as ChatData;
             const expectedEmbed: Metadata = { title: 'Example Domain', url: 'https://example.com', image: 'https://cdn.com/someCoolPng.png' };
             metascraperMock.mockResolvedValue(expectedEmbed);
 
@@ -51,7 +50,7 @@ describe('ChatService', () => {
         });
 
         it('should not set the embed data if no URL is found in the message', async () => {
-            messageData = { message: 'This is a message without a URL' };
+            messageData = { message: 'This is a message without a URL' } as ChatData;
 
             let embed = await sut.buildEmbed(messageData);
 
@@ -59,7 +58,7 @@ describe('ChatService', () => {
         });
 
         it('should handle errors when fetching the URL', async () => {
-            messageData = { message: 'Check out this website: https://example.com' };
+            messageData = { message: 'Check out this website: https://example.com' } as ChatData;
             metascraperMock.mockRejectedValue(new Error('Network error'));
 
             let embed = await sut.buildEmbed(messageData);
@@ -101,11 +100,11 @@ describe('ChatService', () => {
 
             expect(afterCount).toBe(0);
         })
-        it('should not decrement the user count to a negative number if the stream key is in the map', () => {
-            sut.decrementUserCount(zeroUserStreamKey);
-            const afterCount = sut.userCountsByStreamKey.get(zeroUserStreamKey);
+        it('should not decrement the user count to below 1 if the stream key is in the map', () => {
+            sut.decrementUserCount(noZeroUserStreamKey);
+            const afterCount = sut.userCountsByStreamKey.get(noZeroUserStreamKey);
 
-            expect(afterCount).toBe(0);
+            expect(afterCount).toBe(1);
         })
     });
 
@@ -129,7 +128,7 @@ describe('ChatService', () => {
     describe('handleChatMessage', () => {
         it('should build and emit a chat message', async () => {
             const streamKey = 'testStreamKey';
-            const messageData = { message: '**test** _message_' };
+            const messageData = { message: '**test** _message_' } as ChatData;
             const toSpy = vi.spyOn(io, 'to');
             const buildEmbedSpy = vi.spyOn(sut, 'buildEmbed').mockResolvedValueOnce(undefined);
             const textEmojiSpy = vi.spyOn(markdownToTextEmoji, 'textEmoji').mockReturnValue(messageData.message);
@@ -141,12 +140,12 @@ describe('ChatService', () => {
             expect(toSpy).toHaveBeenCalledWith(streamKey);
             expect(textEmojiSpy).toHaveBeenCalledWith(messageData.message);
             expect(messagesAfter.length).toBe(1);
-            expect(messagesAfter[0]).toEqual({ ...messageData, html: '<strong>test</strong> <em>message</em>', embed: undefined });
+            expect(messagesAfter[0]).toEqual({ ...messageData, html: '<p><strong>test</strong> <em>message</em></p>\n', embed: undefined });
         });
 
         it('should build and emit a chat message with an embed', async () => {
             const streamKey = 'testStreamKey';
-            const messageData = { message: '**test** _message_' };
+            const messageData = { message: '**test** _message_' } as ChatData;
             const toSpy = vi.spyOn(io, 'to');
             const buildEmbedSpy = vi.spyOn(sut, 'buildEmbed').mockResolvedValueOnce({ description: 'test description' });
             const textEmojiSpy = vi.spyOn(markdownToTextEmoji, 'textEmoji').mockReturnValue(messageData.message);
@@ -159,12 +158,15 @@ describe('ChatService', () => {
             expect(textEmojiSpy).toHaveBeenCalledWith(messageData.message);
             expect(sut.messagesByStreamKey.get(streamKey)!.length).toBe(1);
             expect(messagesAfter.length).toBe(1);
-            expect(messagesAfter[0]).toEqual({ ...messageData, html: '<strong>test</strong> <em>message</em>', embed: { description: 'test description' } });
+            const message = messagesAfter[0];
+            expect(message.message).toEqual(messageData.message);
+            expect(message.html).toEqual('<p><strong>test</strong> <em>message</em></p>\n')
+            expect(message.embed?.description).toEqual('test description');
         });
 
         it('should remove the chat message after configured messageDuration', async () => {
             const streamKey = 'testStreamKey';
-            const messageData = { message: 'test message' };
+            const messageData = { message: 'test message' } as ChatData;
             const removeSpy = vi.spyOn(Array.prototype, 'splice');
 
             await sut.handleChatMessage(streamKey, messageData);
